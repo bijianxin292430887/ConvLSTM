@@ -1,0 +1,142 @@
+window
+(
+  size [ 635 666 ] # in pixels
+  scale 22.971   # pixels per meter
+  center [ -20.306  21.679 ]
+  rotate [ 0.000  0.000 ]
+  			
+  show_data 1              # 1=on 0=off
+)
+
+
+define block model
+(
+  size [0.500 0.500 0.500]
+  gui_nose 0
+)
+
+define topurg ranger
+(
+	sensor( 			
+    range [ 0.0  30.0 ]
+    fov 270.25
+   samples 1081
+  )
+
+
+  # generic model properties
+  color "black"
+  size [ 0.050 0.050 0.100 ]
+)
+
+define blabla camera
+(
+  # laser properties
+  resolution [ 112 112 ]
+  range [ 0.2 8.0 ]
+  fov [ 70.0 40.0 ]
+  pantilt [ 40.0 0.0 ]
+
+  # model properties
+  size [ 0.05 0.05 0.05 ]
+  color "black"
+  watts 100.0 # TODO find watts for sony pan-tilt camera
+)
+define blabla1 camera
+(
+  # laser properties
+  resolution [ 112 112 ]
+  #resolution [ 224 224 ]
+  range [ 0.2 8.0 ]
+  fov [ 70.0 40.0 ]
+  pantilt [ 0.0 0.0 ]
+
+  # model properties
+  size [ 0.1 0.07 0.05 ]
+  color "black"
+  watts 100.0 # TODO find watts for sony pan-tilt camera
+)
+define blabla2 camera
+(
+  # laser properties
+  resolution [ 112 112 ]
+  
+  range [ 0.2 8.0 ]
+  fov [ 70.0 40.0 ]
+  pantilt [ -40.0 0]
+  
+
+  # model properties
+  size [ 0.05 0.05 0.05 ]
+  color "black"
+  watts 100.0 # TODO find watts for sony pan-tilt camera
+)
+
+define erratic position
+(
+  #size [0.415 0.392 0.25]
+  size [0.350 0.350 0.250]
+  origin [-0.050 0.000 0.000 0.000]
+  gui_nose 1
+  drive "diff"
+  
+  blabla(pose [ 0.050 0.10 0.000 40.000 ])
+  blabla1(pose [ 0.050 0.0 0.000 0.00 ])
+  blabla2(pose [ 0.050 -0.1 0.000 -40.00 ])
+  
+)
+
+define floorplan model
+(
+  # sombre, sensible, artistic
+  #color "gray30"
+
+  # most maps will need a bounding box
+  boundary 1
+
+  gui_nose 0
+  gui_grid 0
+
+  gui_outline 0
+  gripper_return 0
+  fiducial_return 0
+  ranger_return 1.000
+)
+
+# set the resolution of the underlying raytrace model in meters
+resolution 0.02
+
+interval_sim 100  # simulation timestep in milliseconds
+
+
+window
+( 
+  size [ 745 448 ] 
+
+  rotate [ 0.000 -1.560 ]
+  scale 28.806 
+)
+
+# load an environment bitmap
+floorplan
+( 
+  name "willow"
+  bitmap "mmexport1597659624059.png"
+  #bitmap "2.png"
+  size [27.000 29.700 0.500]
+  pose [ -29.350 27.000 0.000 90.000 ]
+)
+
+
+#throw in a robot
+erratic( pose [ -11.277 23.266 0.000 180.000 ] 
+	 topurg(pose [ 0.050 0.000 0.000 0.000 ])
+	 name "era0" color "blue" )
+
+erratic( pose [ -20.277 35.266 0.000 0.000 ] topurg(pose [ 0.050 0.000 0.000 0.000 ]) name "era1" color "blue" )
+#erratic( pose [ -37.277 27.266 0.000 90.000 ] topurg(pose [ 0.050 0.000 0.000 0.000 ]) name "era2" color "blue" )
+#erratic( pose [ -17.47 27.266 0.000 270.000 ] topurg(pose [ 0.050 0.000 0.000 0.000 ]) name "era3" color "blue" )
+#erratic( pose [ -35.3 20.68 0.000 145.000 ] topurg(pose [ 0.050 0.000 0.000 0.000 ]) name "era4" color "blue" )
+#erratic( pose [ -21.6 20.05 0.000 180.000 ] topurg(pose [ 0.050 0.000 0.000 0.000 ]) name "era5" color "blue" )
+
+
